@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@recogito/annotorious@2.4.0/dist/annotorious.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@recogito/annotorious@2.4.0/dist/annotorious.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+<script src="p5.min.js"></script>
+<script src="papaparse.min.js"></script>
+<script src="main.js"></script>
+<script src="app.js"></script>
+
+<title>Project</title>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      
+      <div class="col-xs-12 col-sm-6 col-md-3" #firstSection id="firstSection">
+        <div class="box1">
+          <div class="col-xs-12 col-sm-12">
+            <label for="cropfile" class="form-label">Select Crop file</label>
+            <input class="form-control jq_req" id="cropfile" name="cropfile" type="file" onchange="fetchcrop(this);">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="box1">
+          <div class="col-xs-12 col-sm-12">
+            <label for="classfile" class="form-label">Select Class file</label>
+            <input class="form-control jq_req" name="classfile" type="file" id="classfile" onchange="fetchclass(this);">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-8 col-sm-4 col-md-2">
+        <div class="box1">
+          <form>
+            
+            <div class="col-auto">
+              <label for="myInput" class="visually-hidden">Training CSV name </label>
+              <input type="text" class="form-control" id="myInput" placeholder="Training CSV name (.csv)">
+            </div>
+          
+          </form>
+        </div>
+      </div>
+      
+      <div class="col-xs-4 col-sm-2 col-md-1" id="remove_side_padding">
+        <div class="special_box_1">
+          <button type="button" id="load_data_btn" class="btn btn-secondary btn-lg" 
+             onclick="getInputValue();">Load Data</button>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3" id="remove_side_padding">
+        <div class="box9">
+          
+          <form>
+            <div class="same_line">
+              <div class="sfirst">
+                <label for="crops_path_input" class="visually-hidden">Enter Link path</label>
+                <input type="text" name="linkpath" 
+                  class="form-control" id="crops_path_input" 
+                  placeholder="Enter Link path">
+              </div> 
+            
+              <div class="ssecond">
+                <button type="submit" id="crops_btn" class="btn btn-primary mb-3" onclick="getlinks()">
+                  Get Link
+                </button>
+              </div>  
+            </div>
+          </form>
+
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<!-- -----------------------------------------2nd row------------------------ -->
+  <div class="container-fluid">
+    <div class="row">
+      
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="box5">
+          <div class="col-xs-12 col-sm-12">
+        
+            <input placeholder="(Training csv name for generating Crops)" class="form-control jq_req" id="train" name="train" type="text">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="box5">
+          <div class="col-xs-12 col-sm-12">
+          
+            <input placeholder="(Crop directory name for generating Crops)"  class="form-control jq_req" name="crpdirectory" type="text" id="crpdirectory">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-2">
+        <div class="box5">
+          <div class="col-xs-12 col-sm-12">
+      
+            <input placeholder="(Crop filename name)" class="form-control jq_req" name="crpname" type="text" id="crpname">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-2">
+        <div class="box5">
+          <div class="col-xs-12 col-sm-12">      
+            <input placeholder="-URL- prefix" class="form-control jq_req" name="urlprf" type="text" id="urlprf">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-2">
+        <div class="box5">
+          <button type="button" class="btn btn-secondary" id="second_row_btn" onclick="fetchname()">Generate</button>           
+          </div>
+        </div>
+      </div>  
+    </div>
+  </div>  
+  
+<!-- ----------------------------------------------------------2nd row end-------------- -->
+<!-- 3 columns offset Center -->
+<div class="container-fluid">
+    <div class="row">
+      
+      <div class="col-xs-12 col-sm-6 col-md-4 scrollable">
+        <div class="">
+                   
+          <div class="container">  
+            <div id="galleryDiv" class="row text-center text-lg-left ">
+
+             
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+ <!-- ----------------------------2nd row 2nd col -------------     -->
+      <div class="col-xs-12 col-sm-5 col-md-5">
+        <div class="box3">
+           <!-- 2 columns -->
+
+          <div class="container" id="ineedmar">
+              <div class="row">
+    
+                <div class="col-xs-12 col-sm-2">
+                  <div class="box">
+                    <button type="button" id="prev_img_btn" class="btn btn-primary btn-lg" onclick="showprevimg()">
+                      <i class="fas fa-fast-backward"></i>
+                        
+                      </button>
+                  </div>
+                </div>
+    
+                <div class="col-xs-12 col-sm-2 prev_div">
+                  <div class="box">
+                    <button type="button" id="prev_btn" class="btn btn-primary btn-lg" onclick="showPrev()">
+                      <i class="fas fa-backward"></i>
+                        <!-- &nbsp; Previous -->
+                      </button>
+                  </div>
+                </div>
+    
+                <div class="col-xs-12 col-sm-2 next_div">
+                   <div class="box">
+                    <button type="button" id="next_btn" class="btn btn-primary btn-lg" onclick="showNext()">
+                        <!-- Next &nbsp;  -->
+                       <i class="fas fa-forward"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                  <div class="box">
+                   <button type="button" id="next_img_btn" class="btn btn-primary btn-lg" onclick="shownextimg()">
+                       
+                       <i class="fas fa-fast-forward"></i>
+                   </button>
+                 </div>
+               </div>
+
+                <div class="col-xs-12 col-sm-1">
+                  <div class="box">
+                    <button type="button" class="delete_btn" id="delete_btn"
+                        onclick="deletecrop();">
+                        <i class="fas fa-trash-alt"></i>
+                  </button>
+                  </div>
+                </div>
+    
+                <div class="col-xs-12 col-sm-1">
+                   <div class="box">
+                    <button type="button" class="question_btn" 
+                        onclick="questionablecropfunc();">
+                        <i class="far fa-question-circle"></i>
+                    </button>
+                  </div>
+                </div>
+
+                 <div class="col-xs-12 col-sm-1">
+                   <div class="box">
+                    <button type="button" class="answer_btn" 
+                        onclick="answerablefunc();">
+                        <i class="fa fa-check"></i>
+                    </button>
+                  </div>
+                </div>
+                
+    
+               <div class="col-xs-12 col-sm-1">
+                <div class="box">
+                 <button type="button" class="draw_btn" id="draw_btn">
+                  <a href="#drawOnImage">
+                    <i class="fas fa-pencil-ruler" onclick="draw_func();"></i>
+                  </a>
+                 </button>
+               </div>
+             </div>
+
+              </div>
+            </div>
+
+          </div>
+
+         <!-- ----------------------image container ------  -->
+         
+        <div class="container canvas-container">
+          <div class="row">
+            
+            <div class="col-xs-12 col-sm-12 canvas_scrollable">
+            
+              <div class="main_box_container">
+                <div class="box-container">
+                
+                  <div style="display: none;" class="canvas_div">
+                    <canvas id="canvas"></canvas>
+                  </div>
+                  
+                  <div class="overlap_image">
+                    <img alt="" id="canvasImg"/>
+                    <img alt="" id="orgImg"/>
+                  </div> 
+                  
+                    
+                </div>
+              </div>
+              
+            </div>
+        
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+      <!-- ----------------------3rd col begin down------------------------- -->
+      
+
+      <div class="col-xs-12 col-sm-12 col-md-3 scrollable">
+        <div class="action_box">
+
+          <div class="col-auto">
+            <div id="result"> 
+              
+            </div>
+          </div>
+
+          <h5 id="classto"><center>Preffered class :</center></h5>
+
+          <div>
+            <ul id="addClass"></ul>
+          </div>
+          <hr>
+        
+          <div>
+            <form class="form-check"  id="classchange">
+              <input type="button" id="filter_class_btn" 
+                onclick="filterfunction()" value="Filter Classes">
+                <i class="fas fa-filter"></i>
+          </div>      
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- ------------------------------------------------------------ -->
+  
+<hr>
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-xs-12 col-sm-6">
+        <div class="boxSaveDraw">
+          <button type="button" id="saveDraw" onclick="save_anno_func()" class="btn btn-outline-primary">Save
+            <i class="far fa-save"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="boxSaveDraw">
+          <button type="button" id="cancelDraw" onclick="clearAnn()" class="btn btn-outline-warning">clear
+            <i class="fas fa-ban"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="boxDraw">
+          <div class="drawing_div" id="drawing_div">
+            <img src="" id="drawOnImage" alt="">
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+
+
+   <div class="no_visibility">
+      <p>Image Name :  <span id="complete-name"></span> &emsp;&emsp;&emsp;&emsp; &emsp; &emsp; &emsp;
+      Image Class :  <span id="class-name"></span>
+      </p>
+      <img src="" id="img-complete" class="img-fluid " >
+      <img src="" id="img-cropped" class="img-thumbnail" >
+      <br><span id="cropped-name"></span>
+  </div>
+  
+  
+
+  <script src="app.js"></script>
+ 
+</script>
+</body>
+</html>
+
