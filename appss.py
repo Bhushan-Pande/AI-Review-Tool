@@ -352,7 +352,7 @@ def executemypy():
 	# print(main_list)
 	# print(len(main_list))
 	# print(main_list)
-	trfile=main_list.pop(0)g
+	trfile=main_list.pop(0)
 	crpdir=main_list.pop(0)
 	crpfile=main_list.pop(0)
 	urlfile=main_list.pop(0)
@@ -367,5 +367,5 @@ def executemypy():
 
 
 
-# app.debug = True
+#app.debug = True
 app.run()
