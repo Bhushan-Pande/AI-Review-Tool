@@ -6,7 +6,7 @@ import json
 import pandas as pd
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+# app.config["DEBUG"] = True
 
 from flask import Flask
 from flask_cors import CORS, cross_origin
@@ -352,7 +352,7 @@ def executemypy():
 	# print(main_list)
 	# print(len(main_list))
 	# print(main_list)
-	trfile=main_list.pop(0)
+	trfile=main_list.pop(0)g
 	crpdir=main_list.pop(0)
 	crpfile=main_list.pop(0)
 	urlfile=main_list.pop(0)
@@ -367,5 +367,5 @@ def executemypy():
 
 
 
-app.debug = True
+# app.debug = True
 app.run()
